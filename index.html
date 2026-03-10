@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Legitimo Tech Solutions — Mifos X MFI Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --navy:   #0F2D5A;
+  --blue:   #1565C0;
+  --blue2:  #1E88E5;
+  --sky:    #E3F0FF;
+  --sky2:   #C5DDF9;
+  --paper:  #F5F8FF;
+  --white:  #FFFFFF;
+  --gold:   #C9A84C;
+  --gold2:  #E8C878;
+  --green:  #1A7A4A;
+  --slate:  #334E6E;
+  --muted:  #6B84A0;
+  --border: #D0E3F7;
+  --ink:    #0D1F3C;
+  --sans:   'DM Sans', sans-serif;
+  --serif:  'Playfair Display', serif;
+  --mono:   'Space Mono', monospace;
+  --sh:     0 4px 24px rgba(21,101,192,.10);
+  --sh2:    0 8px 40px rgba(21,101,192,.16);
+}
+html { scroll-behavior: smooth; }
+body { font-family: var(--sans); background: var(--paper); color: var(--ink); overflow-x: hidden; }
+
+/* NAV */
+nav {
+  position: fixed; top:0; left:0; right:0; z-index:100;
+  background: rgba(255,255,255,.9); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border); height: 64px;
+  padding: 0 40px; display: flex; align-items: center; justify-content: space-between;
+  transition: box-shadow .3s;
+}
+nav.scrolled { box-shadow: var(--sh); }
+.nav-brand { display: flex; flex-direction: column; cursor: default; }
+.nav-brand .nb-name { font-family: var(--serif); font-size: 24px; font-weight: 900; letter-spacing: -.02em; line-height: 1.1; }
+.nav-brand .nb-legitimo { color: var(--navy); }
+.nav-brand .nb-tech { color: var(--blue); }
+.nav-brand .nb-solutions { color: var(--blue2); font-style: italic; }
+.nav-brand .nb-sub { font-family: var(--mono); font-size: 9px; font-weight: 400; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-top: 2px; }
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a { font-size: 13px; font-weight: 500; color: var(--slate); text-decoration: none; transition: color .2s; }
+.nav-links a:hover { color: var(--blue); }
+.nav-cta {
+  background: var(--blue); color: #fff; font-family: var(--mono);
+  font-size: 12px; font-weight: 700; letter-spacing: .05em;
+  padding: 9px 22px; border-radius: 6px; border: none; cursor: pointer;
+  transition: background .2s, transform .2s; text-decoration: none; display: inline-block;
+}
+.nav-cta:hover { background: var(--navy); transform: translateY(-1px); }
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+.hamburger span { display: block; width: 22px; height: 2px; background: var(--navy); border-radius: 2px; transition: .3s; }
+.mobile-menu {
+  display: none; position: fixed; top: 72px; left: 0; right: 0;
+  background: var(--white); border-bottom: 1px solid var(--border);
+  padding: 16px 24px 24px; z-index: 99; flex-direction: column;
+  box-shadow: var(--sh2);
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a { font-size: 15px; font-weight: 500; color: var(--slate); text-decoration: none; padding: 13px 0; border-bottom: 1px solid var(--border); display: block; }
+.mobile-menu .mm-btn {
+  margin-top: 16px; background: var(--blue); color: #fff; border: none;
+  border-radius: 8px; padding: 13px; font-family: var(--mono); font-size: 13px;
+  font-weight: 700; cursor: pointer; letter-spacing: .04em; width: 100%; text-align: center;
+}
+
+/* HERO */
+.hero {
+  min-height: 100vh; padding-top: 72px;
+  background: linear-gradient(140deg, var(--navy) 0%, #0D3A8A 50%, #1565C0 100%);
+  position: relative; display: flex; flex-direction: column; justify-content: center; overflow: hidden;
+}
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);
+  background-size: 56px 56px; animation: gridShift 22s linear infinite;
+}
+@keyframes gridShift { from{transform:translateY(0)} to{transform:translateY(56px)} }
+.orb1 { position:absolute; width:700px; height:700px; border-radius:50%; background:radial-gradient(circle,rgba(100,180,255,.15) 0%,transparent 70%); top:-200px; right:-150px; pointer-events:none; }
+.orb2 { position:absolute; width:450px; height:450px; border-radius:50%; background:radial-gradient(circle,rgba(201,168,76,.12) 0%,transparent 70%); bottom:-80px; left:-80px; pointer-events:none; }
+.hero-inner {
+  position: relative; z-index: 2; max-width: 1200px; margin: 0 auto;
+  padding: 72px 40px; display: grid; grid-template-columns: 1fr 340px; gap: 56px; align-items: center;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2);
+  color: var(--gold2); font-family: var(--mono); font-size: 10px; letter-spacing: .14em;
+  text-transform: uppercase; padding: 6px 14px; border-radius: 20px; margin-bottom: 26px;
+  animation: fadeUp .6s ease both;
+}
+.hero-badge::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--gold2); animation:pulse 2s ease infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(1.6)} }
+.hero h1 { font-family:var(--serif); font-size:clamp(38px,5.5vw,78px); line-height:1.05; color:#fff; font-weight:900; animation:fadeUp .7s ease .1s both; }
+.hero h1 em { font-style:normal; color:var(--gold2); display:block; }
+.hero h1 .sub { color:rgba(255,255,255,.35); font-family:var(--sans); font-size:.5em; font-weight:300; display:block; margin-top:6px; letter-spacing:.03em; }
+.hero-sub { color:rgba(255,255,255,.6); font-size:15.5px; line-height:1.75; margin-top:22px; max-width:480px; font-weight:300; animation:fadeUp .7s ease .2s both; }
+.hero-btns { display:flex; gap:14px; align-items:center; flex-wrap:wrap; margin-top:32px; animation:fadeUp .7s ease .3s both; }
+.btn-primary {
+  background:linear-gradient(135deg,var(--gold),var(--gold2)); color:var(--navy);
+  font-family:var(--mono); font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  padding:13px 26px; border:none; border-radius:6px; cursor:pointer;
+  box-shadow:0 4px 20px rgba(201,168,76,.4); transition:transform .2s,box-shadow .2s;
+  text-decoration:none; display:inline-block;
+}
+.btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 28px rgba(201,168,76,.55); }
+.btn-text { color:rgba(255,255,255,.7); font-family:var(--mono); font-size:12px; letter-spacing:.07em; text-transform:uppercase; padding:13px 0; background:none; border:none; cursor:pointer; text-decoration:none; display:inline-flex; align-items:center; gap:6px; transition:color .2s; }
+.btn-text:hover { color:#fff; }
+.btn-text::after { content:'↓'; }
+.hero-card { background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.14); border-radius:16px; padding:30px; backdrop-filter:blur(16px); animation:fadeUp .8s ease .2s both; }
+.hero-card-lbl { font-family:var(--mono); font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--gold2); margin-bottom:18px; }
+.hs { border-bottom:1px solid rgba(255,255,255,.07); padding:12px 0; display:flex; justify-content:space-between; align-items:center; }
+.hs:last-child { border-bottom:none; padding-bottom:0; }
+.hs-l { color:rgba(255,255,255,.4); font-size:12px; }
+.hs-v { color:#fff; font-family:var(--mono); font-size:13px; font-weight:700; }
+.hs-v.gold { color:var(--gold2); }
+.hs-v.green { color:#6EE7A0; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
+.scroll-hint { position:absolute; bottom:28px; left:50%; transform:translateX(-50%); z-index:2; text-align:center; animation:fadeUp .7s ease .5s both; }
+.scroll-hint span { display:block; font-family:var(--mono); font-size:9px; letter-spacing:.15em; text-transform:uppercase; color:rgba(255,255,255,.2); margin-bottom:8px; }
+.scroll-line { width:1px; height:40px; background:linear-gradient(var(--gold2),transparent); margin:0 auto; animation:lineGrow 1.6s ease infinite; }
+@keyframes lineGrow { 0%,100%{opacity:.5;transform:scaleY(1)} 50%{opacity:1;transform:scaleY(1.25)} }
+
+/* STATS */
+.stats-strip { background:var(--navy); padding:56px 40px; }
+.stats-inner { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:repeat(3,1fr); }
+.stat-item { text-align:center; padding:0 28px; border-right:1px solid rgba(255,255,255,.1); }
+.stat-item:last-child { border-right:none; }
+.stat-n { font-family:var(--serif); font-size:54px; font-weight:900; color:var(--gold2); line-height:1; margin-bottom:8px; }
+.stat-l { font-size:13px; color:rgba(255,255,255,.5); line-height:1.5; }
+
+/* SECTIONS */
+.sec-wrap { padding:96px 40px; }
+.sec-wrap.light { background:var(--white); }
+.sec-wrap.pale  { background:var(--sky); }
+.sec-wrap.dark  { background:var(--navy); }
+.sec-inner { max-width:1200px; margin:0 auto; }
+.sec-lbl {
+  font-family:var(--mono); font-size:11px; letter-spacing:.17em; text-transform:uppercase;
+  color:var(--blue2); margin-bottom:12px; display:flex; align-items:center; gap:10px;
+}
+.sec-lbl::after { content:''; flex:1; max-width:48px; height:1px; background:var(--blue2); opacity:.4; }
+.sec-lbl.gold-lbl { color:var(--gold2); }
+.sec-lbl.gold-lbl::after { background:var(--gold2); }
+.sec-title { font-family:var(--serif); font-size:clamp(30px,4vw,52px); line-height:1.1; color:var(--navy); margin-bottom:16px; }
+.sec-title.light-t { color:#fff; }
+.sec-title em { font-style:italic; color:var(--blue); }
+.sec-title.light-t em { color:var(--gold2); }
+.sec-sub { font-size:15.5px; line-height:1.8; color:var(--muted); max-width:580px; font-weight:300; margin-bottom:52px; }
+.sec-sub.light-sub { color:rgba(255,255,255,.45); }
+
+/* PACKAGES */
+.pkg-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+.pkg-card { border-radius:16px; padding:44px 36px; position:relative; overflow:hidden; transition:transform .3s; }
+.pkg-card:hover { transform:translateY(-5px); }
+.pkg-a { background:linear-gradient(150deg,rgba(201,168,76,.13),rgba(201,168,76,.05)); border:1px solid rgba(201,168,76,.25); }
+.pkg-b { background:linear-gradient(150deg,rgba(30,136,229,.18),rgba(30,136,229,.07)); border:1px solid rgba(30,136,229,.3); }
+.pkg-tag { font-family:var(--mono); font-size:10px; letter-spacing:.18em; text-transform:uppercase; padding:4px 12px; border-radius:20px; display:inline-block; margin-bottom:18px; }
+.tag-a { background:rgba(201,168,76,.15); color:var(--gold2); border:1px solid rgba(201,168,76,.3); }
+.tag-b { background:rgba(100,200,255,.12); color:#7DD3FC; border:1px solid rgba(100,200,255,.25); }
+.pkg-name { font-family:var(--serif); font-size:34px; font-weight:900; color:#fff; margin-bottom:5px; }
+.pkg-name small { display:block; font-family:var(--sans); font-size:14px; font-weight:300; color:rgba(255,255,255,.36); margin-top:4px; }
+.pkg-price { display:flex; align-items:baseline; gap:10px; padding:18px 0; border-top:1px solid rgba(255,255,255,.07); border-bottom:1px solid rgba(255,255,255,.07); margin:20px 0; }
+.pkg-word { font-family:var(--serif); font-size:40px; font-weight:900; }
+.pkg-a .pkg-word { color:var(--gold2); }
+.pkg-b .pkg-word { color:#7DD3FC; }
+.pkg-note { font-size:12px; color:rgba(255,255,255,.32); line-height:1.5; max-width:140px; }
+.pkg-list { list-style:none; }
+.pkg-list li { display:flex; align-items:flex-start; gap:10px; padding:8px 0; border-bottom:1px solid rgba(255,255,255,.05); font-size:13.5px; color:rgba(255,255,255,.62); line-height:1.5; }
+.pkg-list li:last-child { border-bottom:none; }
+.ck { font-size:13px; flex-shrink:0; margin-top:2px; }
+.pkg-a .ck { color:var(--gold2); }
+.pkg-b .ck { color:#7DD3FC; }
+.pkg-list li strong { color:rgba(255,255,255,.9); }
+.pkg-wm { position:absolute; bottom:-12px; right:14px; font-family:var(--serif); font-size:130px; font-weight:900; line-height:1; color:rgba(255,255,255,.025); pointer-events:none; user-select:none; }
+.price-flex-banner {
+  background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.15);
+  border-radius: 10px; padding: 16px 22px; margin-top: 28px;
+  display: flex; align-items: center; gap: 12px;
+}
+.price-flex-banner .pfb-icon { font-size: 20px; flex-shrink: 0; }
+.price-flex-banner p { font-size: 13px; color: rgba(255,255,255,.55); line-height: 1.55; }
+.price-flex-banner p strong { color: var(--gold2); }
+
+/* MODULES */
+.mod-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+.mod-card { background:var(--paper); border:1px solid var(--border); border-radius:12px; padding:28px 24px; position:relative; overflow:hidden; transition:box-shadow .3s,transform .3s,border-color .3s; }
+.mod-card:hover { box-shadow:var(--sh2); transform:translateY(-4px); border-color:var(--blue2); }
+.mod-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; }
+.mc0::before { background:linear-gradient(90deg,var(--blue),var(--blue2)); }
+.mc1::before { background:linear-gradient(90deg,var(--gold),var(--gold2)); }
+.mc2::before { background:linear-gradient(90deg,#0277BD,#0288D1); }
+.mc3::before { background:linear-gradient(90deg,#00838F,#00ACC1); }
+.mc4::before { background:linear-gradient(90deg,#6A1B9A,#AB47BC); }
+.mc5::before { background:linear-gradient(90deg,var(--green),#2D8C5A); }
+.mod-ico { width:44px; height:44px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:20px; margin-bottom:14px; }
+.mc0 .mod-ico{background:rgba(21,101,192,.1)} .mc1 .mod-ico{background:rgba(201,168,76,.1)} .mc2 .mod-ico{background:rgba(2,119,189,.1)} .mc3 .mod-ico{background:rgba(0,131,143,.1)} .mc4 .mod-ico{background:rgba(106,27,154,.1)} .mc5 .mod-ico{background:rgba(26,122,74,.1)}
+.mod-title { font-family:var(--serif); font-size:19px; font-weight:700; color:var(--navy); margin-bottom:9px; }
+.mod-desc { font-size:13px; color:var(--muted); line-height:1.65; margin-bottom:14px; }
+.mod-tags { display:flex; flex-wrap:wrap; gap:5px; }
+.mod-tag { font-size:10px; font-family:var(--mono); background:var(--sky); color:var(--blue); padding:3px 9px; border-radius:20px; border:1px solid var(--sky2); }
+
+/* COMPARE */
+.compare-scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+.cmp-table { width:100%; border-collapse:separate; border-spacing:0; border-radius:12px; overflow:hidden; box-shadow:var(--sh2); min-width:580px; }
+.cmp-table thead th { padding:16px 18px; font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; font-weight:700; text-align:left; }
+.cmp-table thead th:first-child { background:var(--navy); color:rgba(255,255,255,.45); width:170px; }
+.cmp-table thead th.hl { background:var(--blue); color:var(--gold2); }
+.cmp-table thead th.ot { background:var(--white); color:var(--muted); }
+.cmp-table tbody tr td { padding:13px 18px; font-size:13px; border-bottom:1px solid var(--border); vertical-align:middle; }
+.cmp-table tbody tr:last-child td { border-bottom:none; }
+.cmp-table tbody tr td:first-child { background:var(--white); font-weight:600; color:var(--slate); font-size:12.5px; }
+.cmp-table tbody tr td.hl { background:rgba(21,101,192,.04); }
+.cmp-table tbody tr td.ot { background:var(--white); color:#888; }
+.tick{color:var(--green);font-weight:700} .cross{color:#D32F2F} .partial{color:#E65100}
+.pill { display:inline-block; padding:3px 9px; border-radius:12px; font-family:var(--mono); font-size:10px; }
+.pbl{background:rgba(21,101,192,.1);color:var(--blue)} .pgo{background:rgba(201,168,76,.1);color:#A07010} .pre{background:rgba(211,47,47,.08);color:#B71C1C}
+
+/* WHY */
+.why-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:52px; }
+.why-card { border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:28px 24px; position:relative; overflow:hidden; transition:border-color .3s,transform .3s; }
+.why-card:hover { border-color:rgba(30,136,229,.5); transform:translateY(-4px); }
+.why-n { font-family:var(--serif); font-size:68px; font-weight:900; line-height:1; color:rgba(255,255,255,.04); position:absolute; top:8px; right:14px; }
+.why-ico { font-size:26px; margin-bottom:14px; }
+.why-title { font-family:var(--serif); font-size:19px; font-weight:700; color:#fff; margin-bottom:9px; }
+.why-desc { font-size:13px; color:rgba(255,255,255,.45); line-height:1.7; }
+
+/* IMPL */
+.impl-track { display:grid; grid-template-columns:repeat(7,1fr); gap:0; margin-top:52px; position:relative; }
+.impl-track::before { content:''; position:absolute; top:25px; left:26px; right:26px; height:2px; background:linear-gradient(90deg,var(--blue),var(--gold)); z-index:0; }
+.impl-step { text-align:center; position:relative; z-index:1; padding:0 4px; }
+.impl-dot { width:50px; height:50px; border-radius:50%; background:var(--white); border:2px solid var(--blue2); display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-size:12px; font-weight:700; color:var(--blue); margin:0 auto 14px; transition:background .3s,border-color .3s,transform .3s; }
+.impl-step:hover .impl-dot { background:var(--blue); color:#fff; border-color:var(--blue); transform:scale(1.1); }
+.impl-step-t { font-size:11px; font-weight:600; color:var(--navy); margin-bottom:4px; line-height:1.3; }
+.impl-step-d { font-size:10.5px; color:var(--muted); line-height:1.5; }
+
+/* CTA */
+.cta-bg { background:linear-gradient(140deg,var(--navy) 0%,#0D3A8A 55%,var(--blue) 100%); padding:96px 40px; position:relative; overflow:hidden; }
+.cta-bg::before { content:''; position:absolute; inset:0; background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px); background-size:50px 50px; pointer-events:none; }
+.cta-inner { max-width:1200px; margin:0 auto; display:grid; grid-template-columns:1fr 420px; gap:56px; align-items:center; position:relative; z-index:1; }
+.cta-title { font-family:var(--serif); font-size:clamp(36px,4.5vw,52px); font-weight:900; color:#fff; line-height:1.05; margin-bottom:16px; }
+.cta-title em { font-style:italic; color:var(--gold2); }
+.cta-sub { font-size:15px; color:rgba(255,255,255,.5); line-height:1.75; margin-bottom:32px; font-weight:300; }
+.cta-email { display:inline-flex; align-items:center; gap:8px; color:var(--gold2); font-family:var(--mono); font-size:13px; text-decoration:none; margin-top:18px; transition:opacity .2s; }
+.cta-email:hover { opacity:.75; }
+.cta-cards { display:flex; flex-direction:column; gap:12px; }
+.cta-card { background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.12); border-radius:12px; padding:22px 26px; cursor:pointer; transition:background .3s,transform .3s; }
+.cta-card:hover { background:rgba(255,255,255,.12); transform:translateX(5px); }
+.cta-card-tag { font-family:var(--mono); font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:var(--gold2); margin-bottom:5px; }
+.cta-card-name { font-family:var(--serif); font-size:19px; font-weight:700; color:#fff; margin-bottom:4px; }
+.cta-card-desc { font-size:12px; color:rgba(255,255,255,.4); line-height:1.55; }
+
+/* FOOTER */
+footer { background:#060D1C; padding:44px 40px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:18px; }
+.footer-brand { font-family:var(--serif); font-size:19px; font-weight:700; color:var(--gold2); }
+.footer-brand span { display:block; font-family:var(--sans); font-size:11.5px; font-weight:300; color:rgba(255,255,255,.22); margin-top:3px; }
+.footer-note { font-size:11px; color:rgba(255,255,255,.15); font-family:var(--mono); text-align:right; line-height:1.7; }
+
+/* MODAL */
+.modal-overlay { position:fixed; inset:0; z-index:1000; background:rgba(8,20,50,.65); backdrop-filter:blur(8px); display:none; align-items:center; justify-content:center; padding:20px; overflow-y:auto; }
+.modal-overlay.open { display:flex; }
+.modal { background:var(--white); border-radius:20px; width:100%; max-width:620px; max-height:90vh; overflow-y:auto; box-shadow:0 24px 80px rgba(15,45,90,.3); animation:modalIn .35s cubic-bezier(.34,1.2,.64,1) both; position:relative; }
+@keyframes modalIn { from{opacity:0;transform:scale(.92) translateY(18px)} to{opacity:1;transform:scale(1) translateY(0)} }
+.modal-hdr { background:linear-gradient(135deg,var(--navy),var(--blue)); padding:28px 32px 24px; border-radius:20px 20px 0 0; }
+.modal-hdr h3 { font-family:var(--serif); font-size:24px; color:#fff; margin-bottom:5px; }
+.modal-hdr p { font-size:13px; color:rgba(255,255,255,.5); }
+.modal-close { position:absolute; top:18px; right:18px; width:34px; height:34px; border-radius:50%; background:rgba(255,255,255,.12); border:none; cursor:pointer; color:#fff; font-size:17px; display:flex; align-items:center; justify-content:center; transition:background .2s; }
+.modal-close:hover { background:rgba(255,255,255,.25); }
+.modal-body { padding:28px 32px 32px; }
+.form-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.fg { display:flex; flex-direction:column; gap:5px; }
+.fg.full { grid-column:1/-1; }
+.flbl { font-size:11.5px; font-weight:600; color:var(--slate); letter-spacing:.03em; }
+.finput,.fselect,.ftextarea { width:100%; padding:10px 13px; border:1.5px solid var(--border); border-radius:8px; font-family:var(--sans); font-size:13.5px; color:var(--ink); background:var(--paper); transition:border-color .2s,box-shadow .2s; appearance:none; -webkit-appearance:none; }
+.finput:focus,.fselect:focus,.ftextarea:focus { outline:none; border-color:var(--blue2); box-shadow:0 0 0 3px rgba(30,136,229,.1); }
+.ftextarea { resize:vertical; min-height:75px; }
+.fselect { background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B84A0' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 11px center; padding-right:34px; }
+.pkg-radios { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.pr { position:relative; }
+.pr input { position:absolute; opacity:0; width:0; height:0; }
+.pr-lbl { display:block; padding:13px 15px; border:2px solid var(--border); border-radius:10px; cursor:pointer; transition:all .2s; background:var(--paper); }
+.pr input:checked + .pr-lbl { border-color:var(--blue); background:rgba(21,101,192,.06); }
+.pr-top { font-weight:600; font-size:12.5px; color:var(--navy); margin-bottom:2px; }
+.pr-sub { font-size:11px; color:var(--muted); }
+.f-submit { width:100%; padding:14px; margin-top:8px; background:linear-gradient(135deg,var(--blue),var(--navy)); color:#fff; font-family:var(--mono); font-size:12px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; border:none; border-radius:10px; cursor:pointer; transition:transform .2s,box-shadow .2s; box-shadow:0 4px 16px rgba(21,101,192,.35); }
+.f-submit:hover { transform:translateY(-2px); box-shadow:0 8px 28px rgba(21,101,192,.5); }
+.f-submit:disabled { opacity:.6; cursor:not-allowed; transform:none; }
+.f-note { font-size:11px; color:var(--muted); text-align:center; margin-top:10px; line-height:1.5; }
+.f-success { display:none; text-align:center; padding:20px 0 8px; }
+.f-success-ico { font-size:50px; margin-bottom:12px; }
+.f-success h4 { font-family:var(--serif); font-size:22px; color:var(--navy); margin-bottom:8px; }
+.f-success p { font-size:13.5px; color:var(--muted); line-height:1.6; }
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .hero-inner{grid-template-columns:1fr}
+  .hero-card{display:none}
+  .cta-inner{grid-template-columns:1fr}
+  .impl-track{grid-template-columns:repeat(4,1fr)}
+  .impl-track::before{display:none}
+}
+@media(max-width:768px){
+  nav{padding:0 18px}
+  .nav-links,.nav-cta{display:none}
+  .hamburger{display:flex}
+  .hero-inner{padding:56px 20px}
+  .sec-wrap{padding:72px 20px}
+  .stats-strip{padding:52px 20px}
+  .cta-bg,.pkg-bg{padding:72px 20px}
+  .pkg-grid,.mod-grid,.why-grid{grid-template-columns:1fr}
+  .impl-track{grid-template-columns:repeat(2,1fr);gap:16px}
+  .impl-track::before{display:none}
+  .stats-inner{grid-template-columns:1fr}
+  .stat-item{border-right:none;border-bottom:1px solid rgba(255,255,255,.1);padding:18px 0}
+  .stat-item:last-child{border-bottom:none}
+  .form-grid{grid-template-columns:1fr}
+  .pkg-radios{grid-template-columns:1fr}
+  .modal-body{padding:22px 18px 26px}
+  .modal-hdr{padding:22px 18px 18px}
+  .hero-btns{flex-direction:column;align-items:flex-start}
+  footer{flex-direction:column;align-items:flex-start}
+  .footer-note{text-align:left}
+}
+@media(max-width:480px){
+  .hero h1{font-size:34px}
+  .sec-title{font-size:26px}
+  .cta-title{font-size:30px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nb">
+  <div class="nav-brand">
+    <div class="nb-name"><span class="nb-legitimo">Legitimo </span><span class="nb-tech">Tech </span><span class="nb-solutions">Solutions</span></div>
+    <div class="nb-sub">Core Banking · MFI Software</div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#packages">Packages</a></li>
+    <li><a href="#modules">Modules</a></li>
+    <li><a href="#compare">Compare</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#process">Process</a></li>
+  </ul>
+  <button class="nav-cta" onclick="openModal()">Request a Demo</button>
+  <button class="hamburger" onclick="toggleNav()" id="hbg" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mnav">
+  <a href="#packages" onclick="closeNav()">Packages</a>
+  <a href="#modules" onclick="closeNav()">Modules</a>
+  <a href="#compare" onclick="closeNav()">Compare</a>
+  <a href="#why" onclick="closeNav()">Why Us</a>
+  <a href="#process" onclick="closeNav()">Process</a>
+  <button class="mm-btn" onclick="closeNav();openModal()">Request a Demo →</button>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-grid"></div>
+  <div class="orb1"></div><div class="orb2"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge">Legitimo Tech Solutions &nbsp;·&nbsp; 2025</div>
+      <h1>Core Banking<em>Built for MFIs.</em><span class="sub">Powered by Mifos X / Apache Fineract</span></h1>
+      <p class="hero-sub">Enterprise-grade microfinance software — deployed, configured, and supported locally. Full code ownership or fully managed. You choose.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="openModal()">Request a Demo</button>
+        <a href="#packages" class="btn-text">Explore Packages</a>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-card-lbl">Platform at a glance</div>
+      <div class="hs"><span class="hs-l">Platform</span><span class="hs-v gold">Mifos X / Fineract</span></div>
+      <div class="hs"><span class="hs-l">Countries deployed</span><span class="hs-v">15+</span></div>
+      <div class="hs"><span class="hs-l">Clients served globally</span><span class="hs-v green">1.2M+</span></div>
+      <div class="hs"><span class="hs-l">Recognition</span><span class="hs-v">Digital Public Good</span></div>
+      <div class="hs"><span class="hs-l">Deployment models</span><span class="hs-v">2 Packages</span></div>
+      <div class="hs"><span class="hs-l">Support</span><span class="hs-v gold">Local · In-region</span></div>
+    </div>
+  </div>
+  <div class="scroll-hint"><span>Scroll to explore</span><div class="scroll-line"></div></div>
+</div>
+
+<!-- STATS -->
+<div class="stats-strip">
+  <div class="stats-inner">
+    <div class="stat-item"><div class="stat-n">15+</div><div class="stat-l">Countries running<br>Mifos X / Apache Fineract</div></div>
+    <div class="stat-item"><div class="stat-n">1.2M</div><div class="stat-l">Active clients served<br>by the platform globally</div></div>
+    <div class="stat-item"><div class="stat-n">2025</div><div class="stat-l">Certified Digital<br>Public Good status</div></div>
+  </div>
+</div>
+
+<!-- PACKAGES -->
+<div style="background:var(--navy);padding:96px 40px" id="packages">
+  <div class="sec-inner" style="max-width:1200px;margin:0 auto">
+    <div class="sec-lbl gold-lbl">Our Offerings</div>
+    <h2 class="sec-title light-t">Two Packages.<br><em>One Powerful Platform.</em></h2>
+    <p class="sec-sub light-sub">Both packages include the complete Mifos X module suite. Choose the model that fits your institution.</p>
+    <div class="pkg-grid">
+      <div class="pkg-card pkg-a">
+        <span class="pkg-tag tag-a">Package A</span>
+        <div class="pkg-name">Annual Licence<small>Full ownership. Full code. Your control.</small></div>
+        <div class="pkg-price"><div class="pkg-word">Own It</div><div class="pkg-note">One annual licence fee. All features included. Pricing on request.</div></div>
+        <ul class="pkg-list">
+          <li><span class="ck">✦</span><div><strong>Full source code access</strong> — modify, brand & extend freely</div></li>
+          <li><span class="ck">✦</span><div><strong>On-premise or private cloud</strong> — your servers, your choice</div></li>
+          <li><span class="ck">✦</span><div><strong>Complete data ownership</strong> — data stays where you decide</div></li>
+          <li><span class="ck">✦</span><div><strong>Full customisation rights</strong> — products, workflows, UI</div></li>
+          <li><span class="ck">✦</span><div><strong>Technical support</strong> — included for the full licence year</div></li>
+          <li><span class="ck">✦</span><div><strong>Comprehensive onboarding</strong> — training and go-live support</div></li>
+          <li><span class="ck">✦</span><div><strong>All modules included</strong> — core banking, reporting, mobile, integrations</div></li>
+        </ul>
+        <div class="pkg-wm">A</div>
+      </div>
+      <div class="pkg-card pkg-b">
+        <span class="pkg-tag tag-b">Package B</span>
+        <div class="pkg-name">Managed Service<small>We run it. You focus on your clients.</small></div>
+        <div class="pkg-price"><div class="pkg-word">Managed</div><div class="pkg-note">One-time installation fee + monthly service & maintenance retainer.</div></div>
+        <ul class="pkg-list">
+          <li><span class="ck">✦</span><div><strong>Installation + monthly retainer</strong> — predictable costs, no surprises</div></li>
+          <li><span class="ck">✦</span><div><strong>Fully hosted by Legitimo</strong> — servers, backups & uptime managed</div></li>
+          <li><span class="ck">✦</span><div><strong>Daily automated backups</strong> — your data always safe</div></li>
+          <li><span class="ck">✦</span><div><strong>Priority SLA support</strong> — guaranteed response times</div></li>
+          <li><span class="ck">✦</span><div><strong>Updates & patches managed</strong> — kept current at no extra cost</div></li>
+          <li><span class="ck">✦</span><div><strong>Training & refreshers included</strong> — ongoing staff enablement</div></li>
+          <li><span class="ck">✦</span><div><strong>Zero IT overhead</strong> — ideal without in-house tech staff</div></li>
+        </ul>
+        <div class="pkg-wm" style="color:rgba(100,200,255,.04)">B</div>
+      </div>
+    </div>
+
+    <!-- Pricing flexibility note -->
+    <div class="price-flex-banner">
+      <div class="pfb-icon">💡</div>
+      <p><strong>Pricing is flexible and tailored to your institution.</strong> Final costs depend on your scale of coverage — number of branches, active clients, and required integrations. Contact us for a custom quote with no obligation. We work with institutions of all sizes.</p>
+    </div>
+  </div>
+</div>
+<div class="sec-wrap light" id="modules">
+  <div class="sec-inner">
+    <div class="sec-lbl">What's Included</div>
+    <h2 class="sec-title">A Complete <em>MFI Technology Suite</em></h2>
+    <p class="sec-sub">Both packages include the full Mifos X module library — every feature, every integration, from day one.</p>
+    <div class="mod-grid">
+      <div class="mod-card mc0"><div class="mod-ico">🏦</div><div class="mod-title">Core Banking</div><div class="mod-desc">Complete loan and savings lifecycle. Supports individual & group lending, flexible products, and multi-branch operations.</div><div class="mod-tags"><span class="mod-tag">Loan Origination</span><span class="mod-tag">Savings Accounts</span><span class="mod-tag">Group Lending</span><span class="mod-tag">Multi-Branch</span></div></div>
+      <div class="mod-card mc1"><div class="mod-ico">👥</div><div class="mod-title">Client Management</div><div class="mod-desc">Full KYC profiles for individuals and groups. Track client history, household data, eligibility, and social performance.</div><div class="mod-tags"><span class="mod-tag">KYC Profiles</span><span class="mod-tag">Group Mgmt</span><span class="mod-tag">Loan History</span><span class="mod-tag">Social Impact</span></div></div>
+      <div class="mod-card mc2"><div class="mod-ico">📊</div><div class="mod-title">Reporting & Analytics</div><div class="mod-desc">Standard MFI reports (PAR, disbursements, aging) plus Metabase BI dashboards for branches and executive reporting.</div><div class="mod-tags"><span class="mod-tag">PAR Reports</span><span class="mod-tag">Metabase BI</span><span class="mod-tag">Custom Reports</span><span class="mod-tag">Data Export</span></div></div>
+      <div class="mod-card mc3"><div class="mod-ico">📱</div><div class="mod-title">Mobile & Field Ops</div><div class="mod-desc">Offline-capable field officer app — register clients, collect repayments, disburse loans. Syncs when connectivity returns.</div><div class="mod-tags"><span class="mod-tag">Offline App</span><span class="mod-tag">Field Collection</span><span class="mod-tag">Client Portal</span><span class="mod-tag">SMS Alerts</span></div></div>
+      <div class="mod-card mc4"><div class="mod-ico">🔗</div><div class="mod-title">Integrations</div><div class="mod-desc">Connect to mobile money (M-Pesa, MTN MoMo, Airtel), payment gateways, credit bureaus via full REST API.</div><div class="mod-tags"><span class="mod-tag">Mobile Money</span><span class="mod-tag">REST API</span><span class="mod-tag">Credit Bureau</span><span class="mod-tag">Payment Gateway</span></div></div>
+      <div class="mod-card mc5"><div class="mod-ico">⚖️</div><div class="mod-title">Compliance & Accounting</div><div class="mod-desc">Full double-entry GL, provisioning rules, regulatory reporting, complete audit trails, and granular role-based controls.</div><div class="mod-tags"><span class="mod-tag">General Ledger</span><span class="mod-tag">Provisioning</span><span class="mod-tag">Audit Trail</span><span class="mod-tag">Role Permissions</span></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- COMPARE -->
+<div class="sec-wrap pale" id="compare">
+  <div class="sec-inner">
+    <div class="sec-lbl">Market Positioning</div>
+    <h2 class="sec-title">How We <em>Stack Up</em></h2>
+    <p class="sec-sub">Legitimo delivers enterprise capability at accessible terms — with local support no SaaS vendor can match.</p>
+    <div class="compare-scroll">
+      <table class="cmp-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th class="hl">Legitimo Tech<br>(Mifos X)</th>
+            <th class="ot">Musoni System</th>
+            <th class="ot">Mambu</th>
+            <th class="ot">TurnKey Lender</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Deployment Model</td><td class="hl"><span class="pill pbl">On-premise / Cloud</span></td><td class="ot">Cloud SaaS only</td><td class="ot">Cloud SaaS only</td><td class="ot">Cloud / On-premise</td></tr>
+          <tr><td>Open Source Core</td><td class="hl"><span class="tick">✔</span> Apache Fineract</td><td class="ot"><span class="cross">✘</span> Closed</td><td class="ot"><span class="cross">✘</span> Closed</td><td class="ot"><span class="cross">✘</span> Closed</td></tr>
+          <tr><td>Source Code Access</td><td class="hl"><span class="tick">✔</span> Full (Pkg A)</td><td class="ot"><span class="cross">✘</span> None</td><td class="ot"><span class="cross">✘</span> None</td><td class="ot"><span class="cross">✘</span> None</td></tr>
+          <tr><td>Pricing Model</td><td class="hl"><span class="pill pbl">Flexible / Transparent</span></td><td class="ot"><span class="pill pgo">€999+/month</span></td><td class="ot"><span class="pill pre">Enterprise quote</span></td><td class="ot"><span class="pill pre">Enterprise quote</span></td></tr>
+          <tr><td>MFI Purpose-Built</td><td class="hl"><span class="tick">✔</span> Yes</td><td class="ot"><span class="tick">✔</span> Yes</td><td class="ot"><span class="partial">~</span> Partial</td><td class="ot"><span class="partial">~</span> Partial</td></tr>
+          <tr><td>Offline Field App</td><td class="hl"><span class="tick">✔</span> Included</td><td class="ot"><span class="tick">✔</span> Included</td><td class="ot"><span class="tick">✔</span> Included</td><td class="ot"><span class="cross">✘</span> Limited</td></tr>
+          <tr><td>Mobile Money Integration</td><td class="hl"><span class="tick">✔</span> M-Pesa, MTN, Airtel</td><td class="ot"><span class="tick">✔</span> Yes</td><td class="ot"><span class="tick">✔</span> Yes</td><td class="ot"><span class="partial">~</span> Partial</td></tr>
+          <tr><td>Full Custom Branding</td><td class="hl"><span class="tick">✔</span> Yes (Pkg A)</td><td class="ot"><span class="cross">✘</span> Limited</td><td class="ot"><span class="cross">✘</span> Limited</td><td class="ot"><span class="cross">✘</span> Limited</td></tr>
+          <tr><td>Local Support (E. Africa)</td><td class="hl"><span class="tick">✔</span> In-region team</td><td class="ot"><span class="partial">~</span> Kenya only</td><td class="ot"><span class="cross">✘</span> Remote only</td><td class="ot"><span class="cross">✘</span> Remote only</td></tr>
+          <tr><td>Analytics / BI</td><td class="hl"><span class="tick">✔</span> Metabase included</td><td class="ot"><span class="tick">✔</span> Built-in</td><td class="ot"><span class="tick">✔</span> Built-in</td><td class="ot"><span class="partial">~</span> Basic</td></tr>
+          <tr><td>Full Data Ownership</td><td class="hl"><span class="tick">✔</span> Yes (Pkg A)</td><td class="ot"><span class="cross">✘</span> Vendor-hosted</td><td class="ot"><span class="cross">✘</span> Vendor-hosted</td><td class="ot"><span class="cross">✘</span> Vendor-hosted</td></tr>
+          <tr><td>Suitable for Small MFIs</td><td class="hl"><span class="tick">✔</span> Yes</td><td class="ot"><span class="tick">✔</span> Yes</td><td class="ot"><span class="cross">✘</span> Enterprise focus</td><td class="ot"><span class="partial">~</span> Partial</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:11px;color:var(--muted);margin-top:12px;font-family:var(--mono)">Sources: Musoni pricing page 2025 · G2/Capterra reviews 2024–2025 · Gitnux MFI Software Rankings 2026</p>
+  </div>
+</div>
+
+<!-- WHY -->
+<div class="sec-wrap dark" id="why">
+  <div class="sec-inner">
+    <div class="sec-lbl gold-lbl">Why Legitimo</div>
+    <h2 class="sec-title light-t">Not Just Software.<br><em>A Long-Term Partner.</em></h2>
+    <div class="why-grid">
+      <div class="why-card"><div class="why-n">01</div><div class="why-ico">🌍</div><div class="why-title">Local Expertise</div><div class="why-desc">We understand East African MFI regulations, mobile money ecosystems, and operational realities. Support in your time zone.</div></div>
+      <div class="why-card"><div class="why-n">02</div><div class="why-ico">🔓</div><div class="why-title">No Vendor Lock-in</div><div class="why-desc">Package A delivers full source code. Your system, your data, your decisions. No dependency on a remote SaaS vendor.</div></div>
+      <div class="why-card"><div class="why-n">03</div><div class="why-ico">⚙️</div><div class="why-title">Customisation-First</div><div class="why-desc">We configure loan products, workflows, and reporting to match exactly how your institution operates.</div></div>
+      <div class="why-card"><div class="why-n">04</div><div class="why-ico">📈</div><div class="why-title">Analytics from Day One</div><div class="why-desc">Metabase-powered dashboards for PAR, collections, branch KPIs, and officer productivity — live from day one.</div></div>
+      <div class="why-card"><div class="why-n">05</div><div class="why-ico">🏆</div><div class="why-title">Battle-Tested Platform</div><div class="why-desc">Mifos X / Apache Fineract is a Digital Public Good deployed globally since 2006. Proven infrastructure.</div></div>
+      <div class="why-card"><div class="why-n">06</div><div class="why-ico">💬</div><div class="why-title">Transparent Pricing</div><div class="why-desc">No hidden fees. No per-seat surprises. We agree on a structure upfront and honor it throughout our engagement.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- IMPLEMENTATION -->
+<div class="sec-wrap light" id="process">
+  <div class="sec-inner">
+    <div class="sec-lbl">How It Works</div>
+    <h2 class="sec-title">From Contract to <em>Go-Live in Weeks</em></h2>
+    <p class="sec-sub">Our 7-step methodology ensures a smooth rollout — typically 6 to 12 weeks from kickoff to live operations.</p>
+    <div class="impl-track">
+      <div class="impl-step"><div class="impl-dot">01</div><div class="impl-step-t">Discovery & Scoping</div><div class="impl-step-d">Understand your products, branches & compliance</div></div>
+      <div class="impl-step"><div class="impl-dot">02</div><div class="impl-step-t">System Config</div><div class="impl-step-d">Configure products, savings & chart of accounts</div></div>
+      <div class="impl-step"><div class="impl-dot">03</div><div class="impl-step-t">Data Migration</div><div class="impl-step-d">Migrate client, loan & transaction history</div></div>
+      <div class="impl-step"><div class="impl-dot">04</div><div class="impl-step-t">Integrations</div><div class="impl-step-d">Connect mobile money, gateways & analytics</div></div>
+      <div class="impl-step"><div class="impl-dot">05</div><div class="impl-step-t">UAT & Testing</div><div class="impl-step-d">Full testing in staging before go-live</div></div>
+      <div class="impl-step"><div class="impl-dot">06</div><div class="impl-step-t">Training & Go-Live</div><div class="impl-step-d">Role-based training + supervised launch</div></div>
+      <div class="impl-step"><div class="impl-dot">07</div><div class="impl-step-t">Hypercare Support</div><div class="impl-step-d">Priority post-launch support & SLA</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-bg" id="contact">
+  <div class="cta-inner">
+    <div>
+      <h2 class="cta-title">Ready to<br><em>Transform</em><br>Your MFI?</h2>
+      <p class="cta-sub">Contact Legitimo Tech Solutions today for a free demonstration, scoping session, and tailored commercial proposal — no obligation.</p>
+      <button class="btn-primary" onclick="openModal()" style="font-size:13px;padding:14px 30px">Request a Demo →</button>
+      <br>
+      <a href="/cdn-cgi/l/email-protection#d3b0bbb2a1bfb6aab5baabe7e493b4beb2babffdb0bcbe" class="cta-email">✉ <span class="__cf_email__" data-cfemail="84e7ece5f6e8e1fde2edfcb0b3c4e3e9e5ede8aae7ebe9">[email&#160;protected]</span></a>
+    </div>
+    <div class="cta-cards">
+      <div class="cta-card" onclick="openModal('a')">
+        <div class="cta-card-tag">Package A</div>
+        <div class="cta-card-name">Annual Licence</div>
+        <div class="cta-card-desc">Full source code · On-premise or cloud · Complete ownership<br>Best for institutions with internal IT capacity</div>
+      </div>
+      <div class="cta-card" onclick="openModal('b')">
+        <div class="cta-card-tag">Package B</div>
+        <div class="cta-card-name">Managed Service</div>
+        <div class="cta-card-desc">Installation fee + monthly retainer · Fully hosted · Priority support<br>Best for lean operations wanting zero IT overhead</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">Legitimo Tech Solutions<span>Microfinance Technology · Core Banking Deployment · Analytics</span></div>
+  <div class="footer-note">© 2025 Legitimo Tech Solutions<br>Powered by Mifos X / Apache Fineract · Digital Public Good</div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="mo" onclick="handleOvClick(event)">
+  <div class="modal" id="mbox">
+    <div class="modal-hdr">
+      <h3>Request a Demo</h3>
+      <p>Tell us about your institution — we'll respond within 24 hours.</p>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="fw">
+        <div class="form-grid">
+          <div class="fg"><label class="flbl">Your Name *</label><input type="text" class="finput" id="f_name" placeholder="Full name"></div>
+          <div class="fg"><label class="flbl">Email Address *</label><input type="email" class="finput" id="f_email" placeholder="you@mfi.org"></div>
+          <div class="fg"><label class="flbl">Phone / WhatsApp</label><input type="tel" class="finput" id="f_phone" placeholder="+256 700 000 000"></div>
+          <div class="fg"><label class="flbl">Institution Name *</label><input type="text" class="finput" id="f_inst" placeholder="Your MFI name"></div>
+          <div class="fg">
+            <label class="flbl">Country *</label>
+            <select class="fselect" id="f_country">
+              <option value="">Select country...</option>
+              <option>Uganda</option><option>Kenya</option><option>Tanzania</option>
+              <option>Rwanda</option><option>Ethiopia</option><option>Nigeria</option>
+              <option>Ghana</option><option>Zambia</option><option>Zimbabwe</option>
+              <option>South Africa</option><option>Other</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label class="flbl">Number of Active Clients</label>
+            <select class="fselect" id="f_clients">
+              <option value="">Select range...</option>
+              <option>Under 500</option><option>500 – 2,000</option>
+              <option>2,000 – 10,000</option><option>10,000 – 50,000</option><option>50,000+</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label class="flbl">Number of Branches</label>
+            <select class="fselect" id="f_branches">
+              <option value="">Select range...</option>
+              <option>1 (Head Office only)</option><option>2 – 5</option>
+              <option>6 – 15</option><option>15 – 30</option><option>30+</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label class="flbl">Current System</label>
+            <select class="fselect" id="f_current">
+              <option value="">Select...</option>
+              <option>Excel / Manual</option><option>Legacy custom software</option>
+              <option>Another MFI platform</option><option>No system yet</option><option>Other</option>
+            </select>
+          </div>
+          <div class="fg full">
+            <label class="flbl">Preferred Package</label>
+            <div class="pkg-radios">
+              <div class="pr"><input type="radio" name="pkg" id="pk_a" value="Package A — Annual Licence"><label class="pr-lbl" for="pk_a"><div class="pr-top">Package A — Annual Licence</div><div class="pr-sub">Full source code · Own your system</div></label></div>
+              <div class="pr"><input type="radio" name="pkg" id="pk_b" value="Package B — Managed Service"><label class="pr-lbl" for="pk_b"><div class="pr-top">Package B — Managed Service</div><div class="pr-sub">Installation + monthly retainer</div></label></div>
+            </div>
+          </div>
+          <div class="fg full">
+            <label class="flbl">Key Priorities / Questions</label>
+            <textarea class="ftextarea" id="f_msg" placeholder="Tell us about your biggest pain points, integrations you need, or anything else we should know before the demo..."></textarea>
+          </div>
+        </div>
+        <button class="f-submit" id="fsub" onclick="submitForm()">Send Demo Request →</button>
+        <p class="f-note">Your request is sent directly to <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="42212a23302e273b242b3a767502252f232b2e6c212d2f">[email&#160;protected]</a></strong> via EmailJS. We respond within 24 hours — no spam, ever.</p>
+      </div>
+      <div class="f-success" id="fs">
+        <div class="f-success-ico">🎉</div>
+        <h4>Request Sent!</h4>
+        <p>Thank you! Your demo request has been delivered to the Legitimo Tech team.<br>We'll be in touch within <strong>24 hours</strong> to schedule your session.</p>
+        <p style="margin-top:12px;font-size:12px;color:var(--muted)">Can't wait? Email us directly:<br><a href="/cdn-cgi/l/email-protection#aac9c2cbd8c6cfd3ccc3d29e9deacdc7cbc3c684c9c5c7" style="color:var(--blue)"><span class="__cf_email__" data-cfemail="c5a6ada4b7a9a0bca3acbdf1f285a2a8a4aca9eba6aaa8">[email&#160;protected]</span></a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// Modal
+function openModal(pkg) {
+  document.getElementById('mo').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  if (pkg === 'a') document.getElementById('pk_a').checked = true;
+  if (pkg === 'b') document.getElementById('pk_b').checked = true;
+}
+function closeModal() {
+  document.getElementById('mo').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function handleOvClick(e) { if (e.target === document.getElementById('mo')) closeModal(); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// Mobile nav
+function toggleNav() { document.getElementById('mnav').classList.toggle('open'); }
+function closeNav() { document.getElementById('mnav').classList.remove('open'); }
+
+// Scroll nav
+window.addEventListener('scroll', () => document.getElementById('nb').classList.toggle('scrolled', scrollY > 20));
+
+// Animations
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.style.opacity='1'; e.target.style.transform='translateY(0)'; } });
+}, { threshold: 0.08 });
+document.querySelectorAll('.why-card,.mod-card,.impl-step,.pkg-card,.cta-card').forEach((el,i) => {
+  el.style.cssText += `opacity:0;transform:translateY(20px);transition:opacity .5s ease ${i*0.06}s,transform .5s ease ${i*0.06}s`;
+  obs.observe(el);
+});
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  });
+});
+
+// Form submit — mailto fallback (works without any backend)
+// To enable real email delivery: sign up at emailjs.com (free), create a Gmail service,
+// then replace the 3 placeholders below with your keys.
+function submitForm() {
+  const name   = document.getElementById('f_name').value.trim();
+  const email  = document.getElementById('f_email').value.trim();
+  const inst   = document.getElementById('f_inst').value.trim();
+  const phone  = document.getElementById('f_phone').value.trim();
+  const country= document.getElementById('f_country').value;
+  const clients= document.getElementById('f_clients').value;
+  const branches=document.getElementById('f_branches').value;
+  const current= document.getElementById('f_current').value;
+  const msg    = document.getElementById('f_msg').value.trim();
+  const pkg    = document.querySelector('input[name="pkg"]:checked');
+
+  if (!name || !email || !inst) { alert('Please fill in your name, email, and institution name.'); return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { alert('Please enter a valid email address.'); return; }
+
+  const btn = document.getElementById('fsub');
+  btn.textContent = 'Sending…'; btn.disabled = true;
+
+  const body = `LEGITIMO TECH — DEMO REQUEST\n\nName:        ${name}\nEmail:       ${email}\nPhone:       ${phone||'—'}\nInstitution: ${inst}\nCountry:     ${country||'—'}\nClients:     ${clients||'—'}\nBranches:    ${branches||'—'}\nCurrent sys: ${current||'—'}\nPackage:     ${pkg?pkg.value:'—'}\n\nMessage / Priorities:\n${msg||'(none)'}`;
+
+  // ── EmailJS — LIVE ──
+  const EJ_KEY      = 'UcI7ngaDyc1dvEkoz';
+  const EJ_SERVICE  = 'service_9mfld8m';
+  const EJ_TEMPLATE = 'template_zn3gpzm';
+
+  const s = document.createElement('script');
+  s.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
+  s.onload = () => {
+    emailjs.init(EJ_KEY);
+    emailjs.send(EJ_SERVICE, EJ_TEMPLATE, {
+      to_email:    'charleyfix47@gmail.com',
+      from_name:   name,
+      from_email:  email,
+      reply_to:    email,
+      institution: inst,
+      country:     country || '—',
+      clients:     clients || '—',
+      branches:    branches || '—',
+      current_sys: current || '—',
+      package_sel: pkg ? pkg.value : '—',
+      phone:       phone || '—',
+      message:     msg || '(none)',
+      full_summary: body
+    }).then(
+      ()    => { showSuccess(); },
+      (err) => { console.warn('EmailJS error:', err); openMailto(body); showSuccess(); }
+    );
